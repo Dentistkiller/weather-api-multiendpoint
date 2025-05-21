@@ -1,89 +1,111 @@
-🌐 Weather & Utility API Frontend (ASP.NET Core MVC)
+## 🌐 Weather & Utility API Frontend (ASP.NET Core MVC)
 
-This frontend is a simple ASP.NET Core MVC web application that consumes your Node.js backend API hosted on Render. It allows users to check the weather, reverse text, and interact with various utility endpoints.
+This frontend is a simple ASP.NET Core MVC web application that consumes a Node.js backend API hosted on Render. It allows users to:
 
-🛠️ Prerequisites
-Visual Studio 2022 or later
+* ☔️ Check weather for any city
+* 🔄 Reverse a string
+* ➕ Add two numbers
+* ⏰ Get the current server time
+* 🎲 Generate a random number
 
-An existing running backend API (deployed on Render)
+---
 
-OpenWeatherMap API key (already set in backend/ on render)
+### 🛠️ Prerequisites
 
-🧰 Steps to Create the Frontend in Visual Studio
-1. Create a New ASP.NET Core MVC Project
-Open Visual Studio.
+* Visual Studio 2022 or later
+* Running backend API (deployed on Render)
+* OpenWeatherMap API key configured in the backend
 
-Click Create a new project.
+---
 
-Choose ASP.NET Core Web App (Model-View-Controller).
+### 🧰 Steps to Create the Frontend in Visual Studio
 
-Name your project (e.g., WeatherFrontend), choose a location, then click Next.
+#### 1. Create a New ASP.NET Core MVC Project
 
-Select .NET 8 (Long-term support) or higher.
+* Open Visual Studio.
+* Click **Create a new project**.
+* Choose **ASP.NET Core Web App (Model-View-Controller)**.
+* Name the project (e.g., `WeatherFrontend`) and choose a location.
+* Select **.NET 8 (LTS)** or higher.
+* Check **Enable container support**.
+* Click **Create**.
 
-Check enable container support
+#### 2. Create the Data Models
 
-Click Create.
+* Add a folder named `Models`.
+* Create a `WeatherModel` class to represent weather data.
 
-2. Create the Data Models
-Add a new folder named Models.
+#### 3. Add a Service Class to Call the API
 
-Create amodel class to represent the API responses (for weather data).
+* Add a folder named `Services`.
+* Create a class `ApiService.cs` to call your backend endpoints using `HttpClient`.
+* Implement methods for:
 
-3. Add a Service Class to Call the API
-Create a folder named Services.
+  * `GetWeatherAsync(string city)`
+  * `ReverseTextAsync(string text)`
+  * `AddNumbersAsync(int a, int b)`
+  * `GetCurrentTimeAsync()`
+  * `GetRandomNumberAsync()`
 
-Create a class that uses HttpClient to communicate with your Node.js backend endpoints.
+#### 4. Create a Controller
 
-Implement methods to:
+* Add a new controller named `WeatherController.cs`.
+* Instantiate the `ApiService`.
+* Add action methods:
 
-Fetch weather data.
+  * `Index()`
+  * `GetWeather(string city)`
+  * `Reverse(string input)`
+  * `Add(int a, int b)`
+  * `Time()`
+  * `Random()`
 
-Reverse text.
+#### 5. Create Views
 
-Call any other available endpoints.
+* Inside the `Views` folder, add a `Weather` subfolder.
+* Add the following views:
 
-4. Create a Controller
-Add a new controller named WeatherController.
+  * `Index.cshtml` – Homepage with forms for all features
+  * `WeatherResult.cshtml` – Display weather info
+  * `ReverseResult.cshtml` – Display reversed string
+  * `AddResult.cshtml` – Show sum result
+  * `TimeResult.cshtml` – Show current time
+  * `RandomResult.cshtml` – Show random number
 
-Inject or instantiate the service class.
+#### 6. Set the Default Route
 
-Create action methods to handle:
+* In `Program.cs`, configure the default route to `Weather/Index`:
 
-Fetching weather info.
+```csharp
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Weather}/{action=Index}/{id?}");
+```
 
-Reversing text.
+#### 7. Run the Application
 
-Rendering the appropriate views.
+* Press **F5** or click **Start Debugging**.
 
-5. Create Views
-Inside the Views folder, create a subfolder named Weather.
+You should now see a page with forms for:
 
-Create the following views:
+* Weather lookup
+* Text reversal
+* Adding numbers
+* Getting current time
+* Getting a random number
 
-Index.cshtml for the homepage with forms.
+---
 
-WeatherResult.cshtml to display weather info.
+### 🔄 Backend API Endpoints Used
 
-ReverseResult.cshtml to display reversed text.
+| Method | Endpoint          | Purpose                     |
+| ------ | ----------------- | --------------------------- |
+| GET    | `/weather/{city}` | Get weather data            |
+| POST   | `/reverse`        | Reverse input string        |
+| GET    | `/add?a=1&b=2`    | Add two numbers             |
+| GET    | `/time`           | Get current server time     |
+| GET    | `/random`         | Get a random number (0-999) |
 
-6. Set the Default Route
-Open Program.cs or Startup.cs.
+---
 
-Set the default route to point to Weather/Index.
-
-7. Run the Application
-Press F5 or click Start Debugging.
-
-The homepage should allow you to:
-
-Enter a city name and get weather data.
-
-Enter text to reverse.
-
-🔄 Backend API Endpoints Used
-This frontend interacts with the following API endpoints:
-
-GET /weather/{city} – Get weather data for a specific city
-
-POST /reverse – Reverse a given string
+### ✨ Enjoy building your utility dashboard with ASP.NET Core + Node.js!
