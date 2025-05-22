@@ -46,6 +46,20 @@ This frontend is a simple ASP.NET Core MVC web application that consumes a Node.
   * `AddNumbersAsync(int a, int b)`
   * `GetCurrentTimeAsync()`
   * `GetRandomNumberAsync()`
+```c#
+        public async Task<int?> GetRandomNumberAsync()
+        {
+            var response = await _http.GetAsync("/random");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(json);
+                return doc.RootElement.GetProperty("random").GetInt32();
+            }
+            return null;
+        }
+```
+  
 
 #### 4. Create a Controller
 
