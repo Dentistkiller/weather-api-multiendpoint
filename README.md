@@ -120,8 +120,6 @@ app.MapControllerRoute(
 
 #### 7. Run the Application
 
-* Press **F5** or click **Start Debugging**.
-
 You should now see a page with forms for:
 
 * Weather lookup
