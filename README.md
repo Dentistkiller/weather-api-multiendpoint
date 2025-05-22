@@ -46,6 +46,7 @@ This frontend is a simple ASP.NET Core MVC web application that consumes a Node.
   * `AddNumbersAsync(int a, int b)`
   * `GetCurrentTimeAsync()`
   * `GetRandomNumberAsync()`
+* An example of what these will look like using GetRandomNumberAsync() 
 ```c#
         public async Task<int?> GetRandomNumberAsync()
         {
@@ -73,13 +74,34 @@ This frontend is a simple ASP.NET Core MVC web application that consumes a Node.
   * `Add(int a, int b)`
   * `Time()`
   * `Random()`
+* An example of what these will look like using Random() and Index()
+```c#
+    public class WeatherController : Controller
+    {
+        private readonly ApiService _apiService;
+
+        public WeatherController()
+        {
+            _apiService = new ApiService();
+        }
+
+        public IActionResult Index() => View();
+        [HttpGet]
+        public async Task<IActionResult> Random()
+        {
+            var random = await _apiService.GetRandomNumberAsync();
+            ViewBag.RandomNumber = random;
+            return View("RandomResult");
+        }
+   }
+```
 
 #### 5. Create Views
 
 * Inside the `Views` folder, add a `Weather` subfolder.
 * Add the following views:
 
-  * `Index.cshtml` – Homepage with forms for all features
+  * `Index.cshtml` – Homepage with forms for all features, include input fields here and buttons to execute the api request and once the request is sent the following will occur:
   * `WeatherResult.cshtml` – Display weather info
   * `ReverseResult.cshtml` – Display reversed string
   * `AddResult.cshtml` – Show sum result
@@ -88,7 +110,7 @@ This frontend is a simple ASP.NET Core MVC web application that consumes a Node.
 
 #### 6. Set the Default Route
 
-* In `Program.cs`, configure the default route to `Weather/Index`:
+* In `Program.cs`, change the default route to `Weather/Index` so it opens up on this page:
 
 ```csharp
 app.MapControllerRoute(
@@ -120,6 +142,4 @@ You should now see a page with forms for:
 | GET    | `/time`           | Get current server time     |
 | GET    | `/random`         | Get a random number (0-999) |
 
----
 
-### ✨ Enjoy building your utility dashboard with ASP.NET Core + Node.js!
